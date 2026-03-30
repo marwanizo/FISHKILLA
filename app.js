@@ -58,7 +58,7 @@ function render() {
         <p class="album-title">${ALBUM.title}</p>
         <p class="album-year">${ALBUM.year}</p>
       </div>
-      <p class="hero-tagline">Merci d'avoir cop' la carte.<br>Ton album est prêt.</p>
+      <p class="hero-tagline">Merci.<br>Ton album est prêt.</p>
     </section>
 
     <!-- Track list -->
