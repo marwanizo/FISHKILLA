@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="preload" href="assets/cover.png" as="image" />
 </head>
 <body>
 
@@ -20,23 +21,17 @@
   </main>
 
   <!-- Sticky CTA -->
-  <div class="sticky-bar" id="stickyBar">
-    <button class="btn-main" id="btnDownloadAll">
+  <div class="sticky-bar">
+    <a class="btn-main" href="assets/FISH KILLA - NO LIMIT.zip" download="FISH KILLA - NO LIMIT.zip">
       <svg class="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      <span id="btnMainLabel">TÉLÉCHARGER L'ALBUM COMPLET</span>
-    </button>
-    <div class="progress-wrap" id="progressWrap">
-      <div class="progress-bar" id="progressBar"></div>
-      <span class="progress-label" id="progressLabel">Préparation...</span>
-    </div>
+      <span>TÉLÉCHARGER L'ALBUM COMPLET</span>
+    </a>
   </div>
 
-  <!-- JSZip via CDN for ZIP generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
