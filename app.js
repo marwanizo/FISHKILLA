@@ -92,10 +92,6 @@ function renderTrackCard(track) {
         <div class="track-title">${track.title}</div>
         <div class="track-duration">${track.duration}</div>
       </div>
-      <button class="btn-track" id="btn-track-${track.number}" aria-label="Télécharger ${track.title}">
-        ${ICON_DOWNLOAD}
-        <span>Télécharger</span>
-      </button>
     </div>
   `;
 }
