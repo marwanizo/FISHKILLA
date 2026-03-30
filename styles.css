@@ -1,0 +1,399 @@
+/* ============================================================
+   FISH KILLA — NO LIMIT | styles.css
+   Premium dark street/rap aesthetic
+   ============================================================ */
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:        #D4AF37;
+  --gold-dim:    rgba(212, 175, 55, 0.2);
+  --gold-glow:   rgba(212, 175, 55, 0.15);
+  --bg:          #0a0a0a;
+  --surface:     rgba(255, 255, 255, 0.05);
+  --border:      rgba(212, 175, 55, 0.2);
+  --text:        #F5F5F5;
+  --text-muted:  rgba(245, 245, 245, 0.45);
+  --radius:      12px;
+  --max-w:       480px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100dvh;
+  /* bottom padding so sticky bar never overlaps content */
+  padding-bottom: 100px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Grain texture overlay ---------- */
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ---------- Layout ---------- */
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 40px 24px 24px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.cover-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.cover-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+  display: block;
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.7),
+    0 0 40px var(--gold-glow),
+    0 0 80px rgba(212, 175, 55, 0.07);
+}
+
+.cover-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.artist-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 8vw, 38px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.album-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 4.5vw, 20px);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.album-year {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.hero-tagline {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 280px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ---------- Track List ---------- */
+.tracklist-section {
+  margin-bottom: 32px;
+}
+
+.section-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.tracklist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Staggered fade-in for cards */
+.track-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  animation: fadeUp 0.5s ease both;
+}
+
+.track-card:nth-child(1) { animation-delay: 0.1s; }
+.track-card:nth-child(2) { animation-delay: 0.2s; }
+.track-card:nth-child(3) { animation-delay: 0.3s; }
+.track-card:nth-child(4) { animation-delay: 0.4s; }
+
+.track-card:hover {
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.track-num {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 13px;
+  color: var(--gold);
+}
+
+.track-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.track-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-duration {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.btn-track {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--gold);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--gold);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn-track:hover {
+  background: var(--gold);
+  color: #000;
+}
+
+.btn-track:active { opacity: 0.85; }
+
+.btn-track .icon-sm {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Track button loading state */
+.btn-track.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.btn-track.loading .icon-sm {
+  animation: spin 0.8s linear infinite;
+}
+
+/* ---------- Sticky CTA bar ---------- */
+.sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 12px 20px 20px;
+  background: linear-gradient(to top, rgba(10,10,10,0.98) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.btn-main {
+  width: 100%;
+  max-width: var(--max-w);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: var(--gold);
+  border: none;
+  border-radius: var(--radius);
+  color: #000;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.15s ease;
+  /* Attention pulse on load */
+  animation: pulse-glow 2.5s ease-in-out 1s 2;
+  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.3);
+}
+
+.btn-main:hover { filter: brightness(1.12); }
+.btn-main:active { transform: scale(0.98); }
+
+.btn-main.loading {
+  pointer-events: none;
+  filter: brightness(0.85);
+}
+
+.btn-main .icon-download {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.btn-main:hover .icon-download { transform: translateY(2px); }
+
+.btn-main.loading .icon-download {
+  animation: spin 0.8s linear infinite;
+  stroke: #000;
+}
+
+/* Progress bar */
+.progress-wrap {
+  display: none;
+  width: 100%;
+  max-width: var(--max-w);
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.progress-wrap.visible { display: flex; }
+
+.progress-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progress-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  text-align: center;
+  padding: 32px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeUp 0.6s ease 0.5s both;
+}
+
+.footer-copy {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.footer-powered {
+  font-size: 11px;
+  color: rgba(212,175,55,0.4);
+  letter-spacing: 0.08em;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%   { box-shadow: 0 4px 24px rgba(212,175,55,0.3); }
+  50%  { box-shadow: 0 4px 40px rgba(212,175,55,0.65), 0 0 60px rgba(212,175,55,0.2); }
+  100% { box-shadow: 0 4px 24px rgba(212,175,55,0.3); }
+}
+
+/* ---------- Desktop centering ---------- */
+@media (min-width: 540px) {
+  .sticky-bar { align-items: center; }
+}
