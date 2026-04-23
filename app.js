@@ -12,7 +12,7 @@ const ALBUM = {
   artist: 'FISH KILLA',
   title: 'NO LIMIT',
   year: 2026,
-  cover: 'assets/cover.png',
+  cover: 'assets/cover.webp',
   tracks: [
     { number: 1,  title: 'No Limit' },
     { number: 2,  title: 'Ghetto Youth feat. Stonebwoy' },
@@ -133,43 +133,40 @@ function validateContact(value) {
 async function handleDownload(e) {
   e.preventDefault();
 
-  const contact  = document.getElementById('contactInput').value.trim();
-  const errEl    = document.getElementById('modalError');
+  const contact   = document.getElementById('contactInput').value.trim();
+  const errEl     = document.getElementById('modalError');
   const submitBtn = document.getElementById('modalSubmit');
-  const label    = document.getElementById('submitLabel');
+  const label     = document.getElementById('submitLabel');
 
   /* Validate */
   const err = validateContact(contact);
   if (err) { errEl.textContent = err; return; }
   errEl.textContent = '';
 
-  /* Loading state */
+  /* Prevent double-submit */
   submitBtn.disabled = true;
-  submitBtn.classList.add('loading');
-  label.textContent = 'Envoi en cours...';
 
-  /* Notify API (best-effort — download proceeds even if it fails) */
-  try {
-    await fetch('/api/notify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contact })
-    });
-  } catch (fetchErr) {
-    console.warn('[notify] API unreachable, download continues.', fetchErr);
-  }
+  /* Fire-and-forget — no await so the user gesture stays active */
+  fetch('/api/notify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ contact })
+  }).catch(fetchErr => console.warn('[notify]', fetchErr));
 
-  /* Trigger ZIP download
-     window.open is required for cross-origin URLs (a.download is ignored by
-     browsers on external domains — GitHub releases are cross-origin). */
-  window.open(ZIP_URL, '_blank', 'noopener');
+  /* Trigger download IMMEDIATELY inside the user gesture.
+     window.location.href is never blocked by popup blockers (unlike
+     window.open after an await) and works on iOS Safari + Android. */
+  window.location.href = ZIP_URL;
 
-  /* Reset & close */
-  closeModal();
-  submitBtn.disabled = false;
-  submitBtn.classList.remove('loading');
-  label.textContent = 'Confirmer & Télécharger';
-  document.getElementById('contactInput').value = '';
+  /* Show success feedback, then reset & close after 2s */
+  label.textContent = 'Téléchargement lancé ✓';
+  setTimeout(() => {
+    closeModal();
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('loading');
+    label.textContent = 'Confirmer & Télécharger';
+    document.getElementById('contactInput').value = '';
+  }, 2000);
 }
 
 /* ---------- Init ---------- */
