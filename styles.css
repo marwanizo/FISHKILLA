@@ -7,12 +7,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --gold:        #D4AF37;
-  --gold-dim:    rgba(212, 175, 55, 0.2);
-  --gold-glow:   rgba(212, 175, 55, 0.15);
-  --bg:          #0a0a0a;
+  --gold:        #E8490C;
+  --gold-dim:    rgba(232, 73, 12, 0.2);
+  --gold-glow:   rgba(232, 73, 12, 0.18);
+  --bg:          #0c0300;
   --surface:     rgba(255, 255, 255, 0.05);
-  --border:      rgba(212, 175, 55, 0.2);
+  --border:      rgba(232, 73, 12, 0.25);
   --text:        #F5F5F5;
   --text-muted:  rgba(245, 245, 245, 0.45);
   --radius:      12px;
@@ -23,6 +23,9 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,73,12,0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(200,40,0,0.10) 0%, transparent 60%);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   font-size: 15px;
@@ -207,11 +210,6 @@ body {
   text-overflow: ellipsis;
 }
 
-.track-duration {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
 
 .btn-track {
   flex-shrink: 0;
@@ -271,8 +269,9 @@ body {
   gap: 10px;
   padding: 16px 24px;
   background: var(--gold);
+  border: none;
   border-radius: var(--radius);
-  text-decoration: none;
+  cursor: pointer;
   color: #000;
   font-family: 'Montserrat', sans-serif;
   font-weight: 900;
@@ -282,7 +281,7 @@ body {
   transition: filter 0.2s ease, transform 0.15s ease;
   /* Attention pulse on load */
   animation: pulse-glow 2.5s ease-in-out 1s 2;
-  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 4px 24px rgba(232, 73, 12, 0.35);
 }
 
 .btn-main:hover { filter: brightness(1.12); }
@@ -315,7 +314,7 @@ body {
 
 .footer-powered {
   font-size: 11px;
-  color: rgba(212,175,55,0.4);
+  color: rgba(232,73,12,0.5);
   letter-spacing: 0.08em;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
@@ -333,12 +332,183 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%   { box-shadow: 0 4px 24px rgba(212,175,55,0.3); }
-  50%  { box-shadow: 0 4px 40px rgba(212,175,55,0.65), 0 0 60px rgba(212,175,55,0.2); }
-  100% { box-shadow: 0 4px 24px rgba(212,175,55,0.3); }
+  0%   { box-shadow: 0 4px 24px rgba(232,73,12,0.35); }
+  50%  { box-shadow: 0 4px 40px rgba(232,73,12,0.7), 0 0 60px rgba(232,73,12,0.25); }
+  100% { box-shadow: 0 4px 24px rgba(232,73,12,0.35); }
 }
 
 /* ---------- Desktop centering ---------- */
 @media (min-width: 540px) {
   .sticky-bar { align-items: center; }
+}
+
+/* ---------- Modal overlay ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  pointer-events: none;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.modal-overlay.open {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  pointer-events: all;
+}
+
+/* ---------- Modal card ---------- */
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: var(--max-w);
+  background: #160500;
+  border: 1px solid rgba(232, 73, 12, 0.3);
+  border-bottom: none;
+  border-radius: 24px 24px 0 0;
+  padding: 32px 24px 44px;
+  transform: translateY(100%);
+  transition: transform 0.38s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.modal-overlay.open .modal-card {
+  transform: translateY(0);
+}
+
+/* drag handle hint */
+.modal-card::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 4px;
+  background: rgba(232, 73, 12, 0.35);
+  border-radius: 999px;
+  margin: 0 auto 24px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255,255,255,0.07);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal-close:hover { background: rgba(232,73,12,0.2); color: var(--text); }
+.modal-close svg { width: 14px; height: 14px; }
+
+.modal-album-badge {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(20px, 5vw, 26px);
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.modal-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 320px;
+}
+
+/* ---------- Modal form ---------- */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(232, 73, 12, 0.25);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.modal-input::placeholder { color: var(--text-muted); }
+
+.modal-input:focus {
+  border-color: var(--gold);
+  background: rgba(232, 73, 12, 0.06);
+}
+
+.modal-error {
+  font-size: 12px;
+  color: #ff6b4a;
+  min-height: 16px;
+  padding-left: 2px;
+}
+
+.modal-submit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 24px;
+  background: var(--gold);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.15s ease;
+  margin-top: 4px;
+}
+
+.modal-submit:hover:not(:disabled) { filter: brightness(1.15); }
+.modal-submit:active:not(:disabled) { transform: scale(0.98); }
+.modal-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.modal-submit.loading svg { animation: spin 0.8s linear infinite; }
+
+.modal-legal {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.5;
 }

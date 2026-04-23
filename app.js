@@ -3,6 +3,10 @@
    Download-only NFC album page — Zero backend, 100% static
    ============================================================ */
 
+/* ---------- ZIP download URL (GitHub Release) ---------- */
+/* ⚠️  Remplace cette URL par celle de ta GitHub Release avant de déployer */
+const ZIP_URL = 'https://github.com/marwanizo/FISHKILLA/releases/download/fish-killa-v1/FISH.KILLA.-.NO.LIMIT.zip';
+
 /* ---------- Album data (hardcoded) ---------- */
 const ALBUM = {
   artist: 'FISH KILLA',
@@ -10,20 +14,24 @@ const ALBUM = {
   year: 2026,
   cover: 'assets/cover.png',
   tracks: [
-    {
-      number: 1,
-      title: 'JADA',
-      duration: '3:24',
-      url: 'assets/NOLIMIT/jada.mp3',
-      filename: 'FISH KILLA - JADA.mp3'
-    },
-    {
-      number: 2,
-      title: 'BOMBÖE',
-      duration: '2:58',
-      url: 'assets/NOLIMIT/bomboe.mp3',
-      filename: 'FISH KILLA - BOMBÖE.mp3'
-    }
+    { number: 1,  title: 'No Limit' },
+    { number: 2,  title: 'Ghetto Youth feat. Stonebwoy' },
+    { number: 3,  title: "J'y Arriverais" },
+    { number: 4,  title: 'Abaralanbè' },
+    { number: 5,  title: 'Wari' },
+    { number: 6,  title: 'Besoin de ton amour feat. Clayton Hamilton' },
+    { number: 7,  title: 'BB feat. Hiro' },
+    { number: 8,  title: 'Djarabi' },
+    { number: 9,  title: 'Love Sogni feat. Takana Zion' },
+    { number: 10, title: 'Ma Guinée' },
+    { number: 11, title: 'Bomboé Préférée feat. Sidiki Diabaté' },
+    { number: 12, title: 'Agbogbo' },
+    { number: 13, title: 'Jada feat. Black M' },
+    { number: 14, title: 'Khahylli' },
+    { number: 15, title: "N'nah" },
+    { number: 16, title: "Wine Up feat. L'Saï & Dj Sultan Nash" },
+    { number: 17, title: 'Cima Natoma' },
+    { number: 18, title: 'Rendez-Vous' }
   ]
 };
 
@@ -76,11 +84,6 @@ function render() {
     </footer>
   `;
 
-  /* Bind individual download buttons */
-  ALBUM.tracks.forEach(track => {
-    const btn = document.getElementById(`btn-track-${track.number}`);
-    if (btn) btn.addEventListener('click', () => downloadTrack(track));
-  });
 }
 
 /* ---------- Render a single track card ---------- */
@@ -90,7 +93,6 @@ function renderTrackCard(track) {
       <div class="track-num">${track.number}</div>
       <div class="track-info">
         <div class="track-title">${track.title}</div>
-        <div class="track-duration">${track.duration}</div>
       </div>
     </div>
   `;
@@ -106,5 +108,88 @@ function downloadTrack(track) {
   document.body.removeChild(a);
 }
 
+/* ---------- Modal helpers ---------- */
+function openModal() {
+  const overlay = document.getElementById('modalOverlay');
+  overlay.classList.add('open');
+  setTimeout(() => document.getElementById('contactInput').focus(), 350);
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('modalError').textContent = '';
+}
+
+function validateContact(value) {
+  const v = value.trim();
+  if (!v) return 'Saisis ton email ou ton numéro de téléphone.';
+  /* basic email check */
+  if (v.includes('@') && v.includes('.')) return null;
+  /* basic phone check: digits, spaces, +, -, min 6 chars */
+  if (/^[\d\s+\-().]{6,}$/.test(v)) return null;
+  return 'Format invalide. Ex : jean@mail.com ou +33 6 12 34 56 78';
+}
+
+async function handleDownload(e) {
+  e.preventDefault();
+
+  const contact  = document.getElementById('contactInput').value.trim();
+  const errEl    = document.getElementById('modalError');
+  const submitBtn = document.getElementById('modalSubmit');
+  const label    = document.getElementById('submitLabel');
+
+  /* Validate */
+  const err = validateContact(contact);
+  if (err) { errEl.textContent = err; return; }
+  errEl.textContent = '';
+
+  /* Loading state */
+  submitBtn.disabled = true;
+  submitBtn.classList.add('loading');
+  label.textContent = 'Envoi en cours...';
+
+  /* Notify API (best-effort — download proceeds even if it fails) */
+  try {
+    await fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contact })
+    });
+  } catch (fetchErr) {
+    console.warn('[notify] API unreachable, download continues.', fetchErr);
+  }
+
+  /* Trigger ZIP download
+     window.open is required for cross-origin URLs (a.download is ignored by
+     browsers on external domains — GitHub releases are cross-origin). */
+  window.open(ZIP_URL, '_blank', 'noopener');
+
+  /* Reset & close */
+  closeModal();
+  submitBtn.disabled = false;
+  submitBtn.classList.remove('loading');
+  label.textContent = 'Confirmer & Télécharger';
+  document.getElementById('contactInput').value = '';
+}
+
 /* ---------- Init ---------- */
-document.addEventListener('DOMContentLoaded', render);
+document.addEventListener('DOMContentLoaded', () => {
+  render();
+
+  /* CTA opens modal */
+  document.getElementById('btnDownloadAll').addEventListener('click', openModal);
+
+  /* Close buttons */
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalOverlay').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+
+  /* ESC key */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* Form submit */
+  document.getElementById('downloadForm').addEventListener('submit', handleDownload);
+});

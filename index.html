@@ -22,14 +22,48 @@
 
   <!-- Sticky CTA -->
   <div class="sticky-bar">
-    <a class="btn-main" href="assets/FISH KILLA - NO LIMIT.zip" download="FISH KILLA - NO LIMIT.zip">
+    <button class="btn-main" id="btnDownloadAll">
       <svg class="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
       <span>TÉLÉCHARGER L'ALBUM COMPLET</span>
-    </a>
+    </button>
+  </div>
+
+  <!-- Download Gate Modal -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Télécharger l'album">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div class="modal-album-badge">FISH KILLA — NO LIMIT</div>
+      <h2 class="modal-title">Ton album t'attend 🔥</h2>
+      <p class="modal-subtitle">Laisse ton contact pour recevoir les prochaines sorties de FISH KILLA.</p>
+      <form id="downloadForm" class="modal-form" novalidate>
+        <input
+          type="text"
+          id="contactInput"
+          class="modal-input"
+          placeholder="Email ou numéro de téléphone"
+          autocomplete="on"
+          inputmode="email"
+        />
+        <p class="modal-error" id="modalError"></p>
+        <button type="submit" class="modal-submit" id="modalSubmit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span id="submitLabel">Confirmer &amp; Télécharger</span>
+        </button>
+      </form>
+      <p class="modal-legal">Tes données ne sont pas partagées à des tiers.</p>
+    </div>
   </div>
 
   <script src="app.js"></script>
