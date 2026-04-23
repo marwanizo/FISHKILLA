@@ -127,7 +127,7 @@ function validateContact(value) {
   if (v.includes('@') && v.includes('.')) return null;
   /* basic phone check: digits, spaces, +, -, min 6 chars */
   if (/^[\d\s+\-().]{6,}$/.test(v)) return null;
-  return 'Format invalide. Ex : jean@mail.com ou +33 6 12 34 56 78';
+  return 'Format invalide. Ex : jean@mail.com ou +224 6 12 34 56 78';
 }
 
 async function handleDownload(e) {
