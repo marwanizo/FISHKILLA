@@ -30,7 +30,7 @@ const ALBUM = {
     { number: 14, title: 'Khahylli' },
     { number: 15, title: "N'nah" },
     { number: 16, title: "Wine Up feat. L'Saï & Dj Sultan Nash" },
-    { number: 17, title: 'Cima Natoma' },
+    { number: 17, title: 'Bébé Nara' },
     { number: 18, title: 'Rendez-Vous' }
   ]
 };
