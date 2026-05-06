@@ -20,17 +20,17 @@ const ALBUM = {
     { number: 4,  title: 'Abaralanbè' },
     { number: 5,  title: 'Wari' },
     { number: 6,  title: 'Besoin de ton amour feat. Clayton Hamilton' },
-    { number: 7,  title: 'Bébé Nara' },
+    { number: 7,  title: 'BB feat. Hiro' },
     { number: 8,  title: 'Djarabi' },
     { number: 9,  title: 'Love Sogni feat. Takana Zion' },
     { number: 10, title: 'Ma Guinée' },
     { number: 11, title: 'Bomboé Préférée feat. Sidiki Diabaté' },
     { number: 12, title: 'Agbogbo' },
-    { number: 13, title: 'BB feat. Hiro' },
+    { number: 13, title: 'Jada feat. Black M' },
     { number: 14, title: 'Khahylli' },
     { number: 15, title: "N'nah" },
     { number: 16, title: "Wine Up feat. L'Saï & Dj Sultan Nash" },
-    { number: 17, title: 'Jada feat. Black M' },
+    { number: 17, title: 'Bébé Nara' },
     { number: 18, title: 'Rendez-Vous' }
   ]
 };
